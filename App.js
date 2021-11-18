@@ -12,9 +12,6 @@ const Tab = createBottomTabNavigator();
 const tabBarOptions = {
   showLabel: false,
   activeTintColor: "#FCA311",
-  style: {
-    height: "10%",
-  },
 };
 
 export default function App() {
@@ -25,6 +22,7 @@ export default function App() {
           <Tab.Screen
             name="Home"
             component={HomeScreen}
+            style={{ fontSize: 40 }}
             options={{
               tabBarIcon: ({ color, size }) => (
                 <FontAwesome5 name="newspaper" color={color} size={size} />
