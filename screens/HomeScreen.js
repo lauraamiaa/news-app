@@ -13,8 +13,6 @@ export default function HomeScreen() {
     fetchNews();
   }, []);
 
-  console.log(news.articles);
-
   return (
     <View
       style={{
@@ -40,7 +38,7 @@ export default function HomeScreen() {
             <View style={{ flex: 1, marginLeft: 12 }}>
               <View>
                 <Text style={{ fontSize: 22, paddingRight: 16 }}>
-                  {item.articles.title}
+                  {item.title}
                 </Text>
               </View>
             </View>
