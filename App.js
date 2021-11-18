@@ -1,28 +1,47 @@
-import * as React from "react";
+import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
+import { Provider } from "react-redux";
 
-import HomeScreen from "./components/HomeScreen";
-import PersonalScreen from "./components/PersonalScreen";
+import store from "./store/store";
+import HomeScreen from "./screens/HomeScreen";
+import PersonalScreen from "./screens/PersonalScreen";
 
-const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
+const tabBarOptions = {
+  showLabel: false,
+  activeTintColor: "#FCA311",
+  style: {
+    height: "10%",
+  },
+};
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName="Home"
-        screenOptions={{
-          headerStyle: {
-            backgroundColor: "#14213D",
-          },
-          headerTintColor: "#FCA311",
-          headerTitleAlign: "center",
-        }}
-      >
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Saved News" component={PersonalScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <Tab.Navigator tabBarOptions={tabBarOptions}>
+          <Tab.Screen
+            name="Home"
+            component={HomeScreen}
+            options={{
+              tabBarIcon: ({ color, size }) => (
+                <FontAwesome5 name="newspaper" color={color} size={size} />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="My Articles"
+            component={PersonalScreen}
+            options={{
+              tabBarIcon: ({ color, size }) => (
+                <FontAwesome5 name="bookmark" color={color} size={size} />
+              ),
+            }}
+          />
+        </Tab.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 }
