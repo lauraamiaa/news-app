@@ -10,7 +10,7 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 
-import { fetchedNews } from "../store/actions";
+import { fetchedNews, addNews } from "../store/actions";
 
 export default function HomeScreen() {
   const { news } = useSelector((state) => state.newsReducer);
@@ -18,12 +18,15 @@ export default function HomeScreen() {
 
   const [query, setQuery] = useState("");
 
-  const createAlert = () =>
+  const handleAddFavorite = (item) => {
     Alert.alert(
       "Saved!",
       "To see all your saved articles go to your bookmarks",
       [{ text: "OK", onPress: () => console.log("OK Pressed") }]
     );
+    dispatch(addNews(item));
+    console.log(item);
+  };
 
   return (
     <View
@@ -93,7 +96,7 @@ export default function HomeScreen() {
               }}
             >
               <View>
-                <TouchableOpacity onPress={createAlert}>
+                <TouchableOpacity onPress={() => handleAddFavorite(item)}>
                   <FontAwesome5 name="bookmark" color="#FCA311" size="20" />
                 </TouchableOpacity>
                 <Text

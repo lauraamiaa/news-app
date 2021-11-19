@@ -3,8 +3,10 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
 
 import store from "./store/store";
+// import persistor from "./store/store";
 import HomeScreen from "./screens/HomeScreen";
 import PersonalScreen from "./screens/PersonalScreen";
 
@@ -17,6 +19,7 @@ const tabBarOptions = {
 export default function App() {
   return (
     <Provider store={store}>
+      {/* <PersistGate loading={null} persistor={persistor}> */}
       <NavigationContainer>
         <Tab.Navigator tabBarOptions={tabBarOptions}>
           <Tab.Screen
@@ -40,6 +43,7 @@ export default function App() {
           />
         </Tab.Navigator>
       </NavigationContainer>
+      {/* </PersistGate> */}
     </Provider>
   );
 }
