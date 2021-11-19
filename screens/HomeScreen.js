@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Text,
   View,
@@ -17,10 +17,6 @@ export default function HomeScreen() {
   const dispatch = useDispatch();
 
   const [query, setQuery] = useState("");
-
-  useEffect(() => {
-    dispatch(fetchedNews(query));
-  }, [query]);
 
   const createAlert = () =>
     Alert.alert(
@@ -61,9 +57,7 @@ export default function HomeScreen() {
           }}
         />
         <TouchableOpacity
-          onClick={(event) => {
-            setQuery(event.target.value);
-          }}
+          onPress={() => dispatch(fetchedNews(query))}
           style={{
             backgroundColor: "#FCA311",
             borderRadius: 5,
@@ -87,7 +81,7 @@ export default function HomeScreen() {
         Search Results
       </Text>
       <FlatList
-        data={query}
+        data={news}
         renderItem={({ item }) => {
           return (
             <View
