@@ -1,24 +1,33 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Text,
   View,
   FlatList,
   TextInput,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 
-import { getNews } from "../store/actions";
+import { fetchedNews } from "../store/actions";
 
 export default function HomeScreen() {
   const { news } = useSelector((state) => state.newsReducer);
   const dispatch = useDispatch();
-  const fetchNews = () => dispatch(getNews());
+
+  const [query, setQuery] = useState("");
 
   useEffect(() => {
-    fetchNews();
-  }, []);
+    dispatch(fetchedNews(query));
+  }, [query]);
+
+  const createAlert = () =>
+    Alert.alert(
+      "Saved!",
+      "To see all your saved articles go to your bookmarks",
+      [{ text: "OK", onPress: () => console.log("OK Pressed") }]
+    );
 
   return (
     <View
@@ -35,6 +44,10 @@ export default function HomeScreen() {
         }}
       >
         <TextInput
+          value={query}
+          onChangeText={(query) => {
+            setQuery(query);
+          }}
           placeholder="Enter your search terms"
           style={{
             height: 40,
@@ -48,6 +61,9 @@ export default function HomeScreen() {
           }}
         />
         <TouchableOpacity
+          onClick={(event) => {
+            setQuery(event.target.value);
+          }}
           style={{
             backgroundColor: "#FCA311",
             borderRadius: 5,
@@ -71,16 +87,34 @@ export default function HomeScreen() {
         Search Results
       </Text>
       <FlatList
-        data={news}
+        data={query}
         renderItem={({ item }) => {
           return (
-            <View style={{ flex: 1, marginLeft: 12 }}>
+            <View
+              style={{
+                flex: 1,
+                marginLeft: 12,
+                paddingTop: 16,
+                paddingHorizontal: 16,
+              }}
+            >
               <View>
-                <Text style={{ fontSize: 15, padding: 16 }}>{item.title}</Text>
+                <TouchableOpacity onPress={createAlert}>
+                  <FontAwesome5 name="bookmark" color="#FCA311" size="20" />
+                </TouchableOpacity>
+                <Text
+                  style={{
+                    fontSize: 15,
+                  }}
+                >
+                  {item.title}
+                </Text>
+                <Text style={{ fontSize: 10 }}>{item.content}</Text>
               </View>
             </View>
           );
         }}
+        showsVerticalScrollIndicator={false}
       />
     </View>
   );
