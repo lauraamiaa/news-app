@@ -25,7 +25,6 @@ export default function HomeScreen() {
       [{ text: "OK", onPress: () => console.log("OK Pressed") }]
     );
     dispatch(addNews(item));
-    console.log(item);
   };
 
   return (
@@ -85,6 +84,7 @@ export default function HomeScreen() {
       </Text>
       <FlatList
         data={news}
+        keyExtractor={(item) => item.id}
         renderItem={({ item }) => {
           return (
             <View
